@@ -1,7 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어 조작을 관리하는 클래스
+/// 팝업 등 상호작용에서 사용하는 조작도 같이 관리한다
+/// (조작이 나뉘어 있으면 관리하기 까다롭고 키 입력 수정이 힘들기 때문)
+/// </summary>
 public class PlayerController_PC : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5.0f;
@@ -11,7 +17,7 @@ public class PlayerController_PC : MonoBehaviour
     [SerializeField] private GameObject messageIndicator;
     private GameObject messageObj;
 
-    private bool movable = true;
+    private bool isShowingPopup = false;
 
 
     private CharacterController cc;
@@ -26,7 +32,7 @@ public class PlayerController_PC : MonoBehaviour
     void Update()
     {
         ApplyGravity();
-        if (movable) Move();
+        if (!isShowingPopup) Move();
         Interaction();
     }
 
@@ -59,31 +65,46 @@ public class PlayerController_PC : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && messageObj)
         {
-            var message = messageObj.GetComponent<Message>();
-            messageIndicator.SetActive(false);
-            messageObj = null;
-            movable = false;
-            message.EarnMessage(SetMovable);
+            ViewMessage();
         }
 
         RaycastHit hit;
         if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 5))
         {
-            //if (hit.collider.CompareTag("Message"))
-            //{
-            //    messageIndicator.SetActive(true);
-            //    messageObj = hit.collider.gameObject;
-            //}
-            //else
-            //{
-            //    messageIndicator.SetActive(false);
-            //    messageObj = null;
-            //}
+            if (hit.collider.CompareTag("Message"))
+            {
+                messageIndicator.SetActive(true);
+                messageObj = hit.collider.gameObject;
+            }
+            else
+            {
+                messageIndicator.SetActive(false);
+                if (!isShowingPopup)
+                {
+                    messageObj = null;
+                }
+            }
         }
     }
 
-    public void SetMovable()
+    private void ViewMessage()
     {
-        movable = true;
+        // 쪽지 열 수 있으면 쪽지 열기
+        if (!isShowingPopup)
+        {
+            var message = messageObj.GetComponent<Message>();
+            messageIndicator.SetActive(false);
+            isShowingPopup = true;
+            message.OpenMessage();
+        }
+        // 쪽지 열고 있는 상태 - 닫기
+        else
+        {
+            print("Close");
+            var message = messageObj.GetComponent<Message>();
+            message.CloseMessage();
+            messageObj = null;
+            isShowingPopup = false;
+        }
     }
 }

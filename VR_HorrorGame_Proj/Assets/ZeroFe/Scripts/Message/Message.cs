@@ -12,10 +12,16 @@ public abstract class Message : MonoBehaviour
     public string context;
 
     // 쪽지 애니메이션 실행 및 팝업으로 띄우기
-    public void EarnMessage(System.Action endPopupAction)
+    public void OpenMessage()
     {
         gameObject.SetActive(false);
-        PopupSystem.Instance.Popup(context, Trigger + endPopupAction);
+        PopupSystem.Instance.OpenPopup(context);
+    }
+
+    // 팝업 닫기
+    public void CloseMessage()
+    {
+        PopupSystem.Instance.ClosePopup(Trigger);
     }
 
     protected abstract void Trigger();
