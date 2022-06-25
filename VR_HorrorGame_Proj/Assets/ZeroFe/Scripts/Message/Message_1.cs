@@ -10,6 +10,6 @@ public class Message_1 : Message
     protected override void Trigger()
     {
         print("첫 번째 쪽지 실행");
-        Instantiate(playerChaserPrefab, spawnPos.position + Vector3.up, Quaternion.identity);
+        //Instantiate(playerChaserPrefab, spawnPos.position + Vector3.up, Quaternion.identity);
     }
 }
