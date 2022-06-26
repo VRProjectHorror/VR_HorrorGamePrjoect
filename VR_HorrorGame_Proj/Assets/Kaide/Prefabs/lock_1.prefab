@@ -253,11 +253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18aeb250569b81649a8f688387f3e99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openAngle: -160
+  openAngle: -120
   closeAngle: 0
   closeSpeed: 20
   openSpeed: 10
+  setOpen: 0.5
   door: {fileID: 8869021274063127696}
+  openSoundL: {fileID: 8300000, guid: 0f298e8d62a653d4d9ad3380e3c1fbf8, type: 3}
   openSound: {fileID: 8300000, guid: 615b6e5b99d7bde44b19208e621c9aed, type: 3}
   closeSound: {fileID: 8300000, guid: a68c25f82edf36548b354dbcedc42618, type: 3}
-  source: {fileID: 0}
