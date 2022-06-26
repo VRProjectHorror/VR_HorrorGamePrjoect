@@ -10,7 +10,7 @@ public class LockerOpen : MonoBehaviour
     public float closeAngle = 0f;
     public float closeSpeed;
     public float openSpeed;
-    bool doorState = false; // 문 상태 확인용 변수
+    public bool doorState = false; // 문 상태 확인용 변수
     public Transform door;   
 
     public AudioClip openSound;

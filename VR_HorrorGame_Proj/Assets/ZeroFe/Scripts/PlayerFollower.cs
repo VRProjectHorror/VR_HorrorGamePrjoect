@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,13 @@ public class PlayerFollower : MonoBehaviour
 
     public bool isChasing = false;
 
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponentInChildren<Animator>();
+    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -31,19 +39,25 @@ public class PlayerFollower : MonoBehaviour
 
     public void StartChase()
     {
+        _animator.SetBool("Walking", true);
+        isChasing = true;
+    }
 
+    public void EndChase()
+    {
+        _animator.SetBool("Walking", false);
+        isChasing = false;
     }
 
     private void Chase()
     {
         var diff = player.transform.position - transform.position;
+        // 복도처럼 평평한 곳만 이동하기 때문에 y축으론 움직이지 않음
+        diff.y = 0;
+        var dir = diff.normalized;
         // 최소 속도 보장
         float multiplier = diff.magnitude / distanceMultiplier;
         float speed = Mathf.Max(Mathf.Pow(multiplier, 2f) * baseMoveSpeed, baseMoveSpeed);
-        var dir = diff.normalized;
-        transform.Translate(dir * speed * Time.deltaTime);
-
-        // 회전 처리
-        transform.rotation = Quaternion.LookRotation(dir);
+        transform.position += dir * (speed * Time.deltaTime);
     }
 }
