@@ -69,7 +69,8 @@ public class PlayerController_PC : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 5))
+        int playerLayer = 1 << LayerMask.NameToLayer("Player");
+        if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 5, ~playerLayer))
         {
             if (hit.collider.CompareTag("Message"))
             {

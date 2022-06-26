@@ -1,27 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¸Ş¸ğ ³»¿ëÀ» °ü¸®, ÀúÀåÇÏ´Â Å¬·¡½º
-/// Ãß°¡ÀûÀÎ Çàµ¿ ³»¿ëÀº ÇÔ¼ö ³»¿ë Á¤ÀÇÇØ¼­ »ç¿ëÇÒ °Í
+/// ë©”ëª¨ ë‚´ìš©ì„ ê´€ë¦¬, ì €ì¥í•˜ëŠ” í´ë˜ìŠ¤
+/// ì¶”ê°€ì ì¸ í–‰ë™ ë‚´ìš©ì€ í•¨ìˆ˜ ë‚´ìš© ì •ì˜í•´ì„œ ì‚¬ìš©í•  ê²ƒ
 /// </summary>
 public abstract class Message : MonoBehaviour
 {
-    [TextArea(3, 3), Tooltip("ÂÊÁö ¾È¿¡ µé¾î°¥ ³»¿ë")]
+    [TextArea(3, 3), Tooltip("ìª½ì§€ ì•ˆì— ë“¤ì–´ê°ˆ ë‚´ìš©")]
     public string context;
 
-    // ÂÊÁö ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà ¹× ÆË¾÷À¸·Î ¶ç¿ì±â
+    // ìª½ì§€ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰ ë° íŒì—…ìœ¼ë¡œ ë„ìš°ê¸°
     public void OpenMessage()
     {
-        gameObject.SetActive(false);
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         PopupSystem.Instance.OpenPopup(context);
     }
 
-    // ÆË¾÷ ´İ±â
+    // íŒì—… ë‹«ê¸°
     public void CloseMessage()
     {
         PopupSystem.Instance.ClosePopup(Trigger);
+        MessageManager.Instance.ActiveCurrentMessage();
     }
 
     protected abstract void Trigger();

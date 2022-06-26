@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 4111986829608514}
   - component: {fileID: 111068052614364966}
   m_Layer: 0
-  m_Name: b01_black_silhouette_00
+  m_Name: blackSilhouette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

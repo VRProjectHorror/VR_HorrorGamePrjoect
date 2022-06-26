@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class MessageManager : MonoBehaviour
 {
+    public static MessageManager Instance { get; private set; }
+
     public GameObject[] messages;
     // 현재 선택된 쪽지 위치
     // 시작하자마자 ActiveCurrentMessage()를 호출해서 pos가 0이 되도록 만들기 위해 -1로 설정
@@ -17,10 +19,18 @@ public class MessageManager : MonoBehaviour
     // 디버그용
     public GameObject player;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         // For Debug
-        player = GameObject.Find("Player");
+        if (!player)
+        {
+            player = GameObject.Find("Player");
+        }
 
         // 나머지 쪽지는 다 비활성화
         foreach (var message in messages)
@@ -43,6 +53,12 @@ public class MessageManager : MonoBehaviour
     // 다음 쪽지 불러오기
     public void ActiveCurrentMessage()
     {
+        // 다음 쪽지가 없는 경우 끝낸다
+        if (pos >= messages.Length - 1)
+        {
+            return;
+        }
+
         Debug.Assert(pos < messages.Length - 1, "Error : Next Message is Invalid");
         // 다음 쪽지 불러
         messages[++pos].SetActive(true);
@@ -57,7 +73,8 @@ public class MessageManager : MonoBehaviour
 
         // 해당 쪽지 위치로 플레이어 위치 불러옴
         player.GetComponent<CharacterController>().enabled = false;
-        player.transform.position = messages[pos].transform.position + messages[pos].transform.forward;
+        // 쪽지 프리팹의 X축이 
+        player.transform.position = messages[pos].transform.position - messages[pos].transform.right;
         player.GetComponent<CharacterController>().enabled = true;
     }
 #endif

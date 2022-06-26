@@ -16,7 +16,7 @@ public class Beholder : MonoBehaviour
 
     private bool playerSaw = false;
 
-    public MeshRenderer mesh;
+    public SkinnedMeshRenderer mesh;
     public float fadeOutTime = 3.0f;
     private Camera _main;
 
