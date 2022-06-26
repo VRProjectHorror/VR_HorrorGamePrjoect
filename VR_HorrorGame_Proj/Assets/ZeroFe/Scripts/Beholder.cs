@@ -18,6 +18,8 @@ public class Beholder : MonoBehaviour
 
     public SkinnedMeshRenderer mesh;
     public float fadeOutTime = 3.0f;
+    public LockerOpen broadcastDoor;
+
     private Camera _main;
 
     private void Awake()
@@ -63,6 +65,9 @@ public class Beholder : MonoBehaviour
         }
 
         Destroy(gameObject);
+
+        // 방송실 문 열림
+        broadcastDoor.Open(1f);
     }
 
     private void OnDrawGizmos()

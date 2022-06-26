@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어를 추격하는 인체모형
+/// </summary>
 public class PlayerFollower : MonoBehaviour
 {
     public GameObject player;
@@ -11,17 +14,24 @@ public class PlayerFollower : MonoBehaviour
     // 거리에 따른 비례 속도
     public float distanceMultiplier = 3.0f;
 
-    public bool followStart = false;
+    public bool isChasing = false;
 
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Chase();
+        if (isChasing)
+        {
+            Chase();
+        }
+    }
+
+    public void StartChase()
+    {
+
     }
 
     private void Chase()
@@ -32,5 +42,8 @@ public class PlayerFollower : MonoBehaviour
         float speed = Mathf.Max(Mathf.Pow(multiplier, 2f) * baseMoveSpeed, baseMoveSpeed);
         var dir = diff.normalized;
         transform.Translate(dir * speed * Time.deltaTime);
+
+        // 회전 처리
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 }

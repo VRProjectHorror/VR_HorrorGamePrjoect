@@ -27,6 +27,7 @@ public class Trigger_Platform : MonoBehaviour
         }
 
         print("ÇÃ·§Æû ¿Ã¶ó¿È");
+        isPlayed = true;
         StartCoroutine(IETriggerSequence());
     }
 
