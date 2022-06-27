@@ -6,6 +6,7 @@ public class PlayerCellPhone : MonoBehaviour
 {
     public static PlayerCellPhone instance;
 
+    public GameObject R_Controller;
     public GameObject phone;
     Material phonemat;
     MeshRenderer phoneMesh;
@@ -25,7 +26,7 @@ public class PlayerCellPhone : MonoBehaviour
     {
         instance = this;
     }
-    
+
     // 오른쪽 X버튼 ( Button.one ) 을 누르면 화면 UI가 뜸
     // 오른쪽 Y버튼 ( Button.two ) 을 누르면 화면 UI가 닫힘
 
@@ -51,7 +52,7 @@ public class PlayerCellPhone : MonoBehaviour
         }
 
 
-       
+
     }
 
     void PhoneOn()
@@ -68,52 +69,48 @@ public class PlayerCellPhone : MonoBehaviour
         action?.Invoke();
     }
 
-    void AlarmOn()
+    public void AlarmOn(int num)
     {
-
-        StartCoroutine(First_KakaoTalk());
-
-    }
-
-    IEnumerator First_KakaoTalk()
-    {
-        textureslength = first_KakaoTalk.Length;
-
-        for(int i = 0; i < textureslength; i++)
+        switch (num)
         {
-            OVRInput.SetControllerVibration(0.05f, 0.1f, OVRInput.Controller.All);
+            case 1:
+                StartCoroutine(KakaoTalk(first_KakaoTalk));
+                break;
 
-            phoneMesh.materials[1].SetTexture("_EmissionMap", first_KakaoTalk[i]);
+            case 2:
+                StartCoroutine(KakaoTalk(second_KakaoTalk));
+                break;
 
-            yield return new WaitForSeconds(2f);
+            case 3:
+                StartCoroutine(KakaoTalk(third_KakaoTalk));
+                break;
         }
     }
 
-    IEnumerator Second_KakaoTalk()
+    IEnumerator KakaoTalk(Texture[] kakaoImages)
     {
-        textureslength2 = second_KakaoTalk.Length;
+        textureslength = kakaoImages.Length;
 
-        for (int i = 0; i < textureslength2; i++)
+        for (int i = 0; i < textureslength; i++)
         {
-            OVRInput.SetControllerVibration(0.05f, 0.1f, OVRInput.Controller.All);
+            StartCoroutine(Vibration(0.3f, 0.5f, 0.5f, OVRInput.Controller.All));
 
-            phoneMesh.materials[1].SetTexture("_EmissionMap", second_KakaoTalk[i]);
+            phoneMesh.materials[1].SetTexture("_EmissionMap", kakaoImages[i]);
+
+            while (isPhoneOn == false)
+            {
+                yield return null;
+            }
 
             yield return new WaitForSeconds(2f);
         }
+
     }
 
-    IEnumerator Third_KakaoTalk()
+    IEnumerator Vibration(float waitTime, float frequenct, float amplitude, OVRInput.Controller controller)
     {
-        textureslength3 = third_KakaoTalk.Length;
-
-        for (int i = 0; i < textureslength3; i++)
-        {
-            OVRInput.SetControllerVibration(0.05f, 0.1f, OVRInput.Controller.All);
-
-            phoneMesh.materials[1].SetTexture("_EmissionMap", third_KakaoTalk[i]);
-
-            yield return new WaitForSeconds(2f);
-        }
+        OVRInput.SetControllerVibration(frequenct, amplitude, controller);
+        yield return new WaitForSeconds(waitTime);
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 }
