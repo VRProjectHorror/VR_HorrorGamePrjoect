@@ -18,11 +18,6 @@ public class FlashController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
-    {
-        StartFlash();
-    }
-
     public void StartFlash()
     {
         _light.enabled = true;

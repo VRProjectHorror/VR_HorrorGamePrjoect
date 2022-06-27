@@ -12,6 +12,8 @@ public class Trigger_Warehouse : MonoBehaviour
     public GameObject blackSilhouette;
     public float fadeOutTime = 1.5f;
 
+    public FlashController flash;
+
     private void OnTriggerEnter(Collider other)
     {
         if (isTriggered)
@@ -27,7 +29,7 @@ public class Trigger_Warehouse : MonoBehaviour
     IEnumerator IEFadeOut()
     {
         // 초기 세팅
-        blackSilhouette.SetActive(false);
+        blackSilhouette.SetActive(true);
         var renderer = blackSilhouette.GetComponentInChildren<Renderer>();
         
         // 사라지는 소리?
@@ -45,5 +47,7 @@ public class Trigger_Warehouse : MonoBehaviour
         }
 
         Destroy(gameObject);
+
+        flash.StartFlash();
     }
 }

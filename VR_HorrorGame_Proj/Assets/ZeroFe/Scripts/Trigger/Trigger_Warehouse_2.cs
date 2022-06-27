@@ -9,6 +9,9 @@ public class Trigger_Warehouse_2 : MonoBehaviour
 {
     private bool isTriggered = false;
 
+    public LockerOpen fittingRoomDoorEntrance;
+    public LockerOpen fittingRoomDoor;
+
     private AudioSource audioSource;
 
     private void OnTriggerEnter(Collider other)
@@ -20,5 +23,8 @@ public class Trigger_Warehouse_2 : MonoBehaviour
         isTriggered = true;
 
         audioSource.Stop();
+
+        fittingRoomDoor.Open(0.5f);
+        fittingRoomDoorEntrance.Open(0.5f);
     }
 }
