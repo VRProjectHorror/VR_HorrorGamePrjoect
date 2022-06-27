@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class Wisp : MonoBehaviour
 {
+    public Transform playerTr;
     public Transform targetTr;
     public float targetDistanceDiff = 3.0f;
     public float moveSpeed = 1.5f;
@@ -43,6 +44,10 @@ public class Wisp : MonoBehaviour
     // 플레이어와의 거리를 계산해서 일정거리 이하면 목표지점(자재 창고방)까지 이동한다
     void Update()
     {
+        // Billboard
+        Vector3 to =  playerTr.position - transform.position;
+        transform.forward = new Vector3(to.x, 0, to.z).normalized;
+
         // y축 움직임
         currentTime += Time.deltaTime;
         float newY = initPosY + Mathf.Sin(currentTime) * sinAmplitude;

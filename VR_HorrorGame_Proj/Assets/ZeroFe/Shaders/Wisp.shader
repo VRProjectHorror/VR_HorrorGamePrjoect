@@ -2,47 +2,96 @@ Shader "Custom/Wisp"
 {
     Properties
     {
+		_TintColor("Tint Color", Color) = (0.5,0.5,0.5,0.5)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _MaskTex ("Mask (RGB)", 2D) = "white" {}
+		_InvFade("Soft Particles Factor", Range(0.01,3.0)) = 1.0
     }
     SubShader
     {
-        Tags { "RenderType"="Trasparent" }
-        LOD 200
+        Tags { "RenderType" = "Transparent" "IgnoreProjector" = "True"  "Queue" = "Transparent" "PreviewType" = "Plane" }
+	    Blend SrcAlpha One
+	    ColorMask RGB
+	    Cull Off Lighting Off ZWrite Off
+    	
+        Pass {
 
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma target 2.0
+            #pragma multi_compile_particles
+            #pragma multi_compile_fog
 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
+            #include "UnityCG.cginc"
 
-        sampler2D _MainTex;
-        sampler2D _MaskTex;
+            sampler2D _MainTex;
+            sampler2D _MaskTex;
+            fixed4 _TintColor;
 
-        struct Input
-        {
-            float2 uv_MainTex;
-            float2 uv_MaskTex;
-        };
+            struct appdata_t {
+                float4 vertex : POSITION;
+                fixed4 color : COLOR;
+                float2 texcoord : TEXCOORD0;
+                float2 maskcoord : TEXCOORD1;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+            struct v2f {
+                float4 vertex : SV_POSITION;
+                fixed4 color : COLOR;
+                float2 texcoord : TEXCOORD0;
+                float2 maskcoord : TEXCOORD1;
+                UNITY_FOG_COORDS(1)
+                #ifdef SOFTPARTICLES_ON
+                float4 projPos : TEXCOORD2;
+                #endif
+                UNITY_VERTEX_OUTPUT_STEREO
+            };
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-            fixed4 d = tex2D (_MaskTex, IN.uv_MaskTex);
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Alpha = c.a;
+            float4 _MainTex_ST;
+            float4 _MaskTex_ST;
+
+            v2f vert(appdata_t v)
+            {
+                v2f o;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                #ifdef SOFTPARTICLES_ON
+                o.projPos = ComputeScreenPos(o.vertex);
+                COMPUTE_EYEDEPTH(o.projPos.z);
+                #endif
+                o.color = v.color;
+                o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
+                o.maskcoord = TRANSFORM_TEX(v.maskcoord,_MaskTex);
+                UNITY_TRANSFER_FOG(o,o.vertex);
+                return o;
+            }
+
+            UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
+            float _InvFade;
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
+                #ifdef SOFTPARTICLES_ON
+                float sceneZ = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos)));
+                float partZ = i.projPos.z;
+                float fade = saturate(_InvFade * (sceneZ - partZ));
+                i.color.a *= fade;
+                #endif
+
+                fixed4 d = tex2D(_MaskTex, float2(i.maskcoord.x, i.maskcoord.y - _Time.y));
+                fixed4 col = 2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord + d.r);
+                col.a = saturate(col.a); // alpha should not have double-brightness applied to it, but we can't fix that legacy behavior without breaking everyone's effects, so instead clamp the output to get sensible HDR behavior (case 967476)
+
+                UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(0,0,0,0)); // fog towards black due to our blend mode
+                return col;
+            }
+            ENDCG
         }
-        ENDCG
     }
     FallBack "Diffuse"
 }
