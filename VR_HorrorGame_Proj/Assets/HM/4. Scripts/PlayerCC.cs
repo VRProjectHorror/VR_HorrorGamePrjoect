@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,21 @@ using UnityEngine;
 public class PlayerCC : MonoBehaviour
 {
     CharacterController cc;
+    [SerializeField]
+    GameObject playerCam;
 
     private float gravity = -9.81f;
     private float yVelocity = 0.0f;
 
     public float movespeed;
-    public GameObject forward;
+    
+
+    [SerializeField] private GameObject messageIndicator;
+    [SerializeField]
+    private GameObject messageObj;
+
+    private bool isShowingPopup = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +33,8 @@ public class PlayerCC : MonoBehaviour
     {
         PlayerMove();
         SetGravity();
-
-       
+        Interaction();
+        Debug.DrawRay(playerCam.transform.position, playerCam.transform.forward);
     }
 
     void PlayerMove()
@@ -35,23 +45,10 @@ public class PlayerCC : MonoBehaviour
         Vector3 dir = transform.forward;
         dir.y = 0;
         dir = dir.normalized;
-        /* 
-        transform.forward가 y축에 수직이라면 따로 normalize할 필요 없음
-        이 경우 
-        Vector3 dir = transform.forward;
-        만 있어도 됨
-        */
 
-        // yVelocity는 중력 따로 계산하고 있다 가정
         Vector3 totalVelocity = dir * movespeed * Rpos.y + Vector3.up * yVelocity;
 
-        // 이동 적용
         cc.Move(totalVelocity * Time.deltaTime);
-
-
-        //this.transform.forward = forward.transform.forward;
-
-        //cc.Move((this.transform.forward * Rpos.y * Time.deltaTime * 2f));
 
         this.transform.Rotate(this.transform.up * Lpos.x * Time.deltaTime * 50f);
     }
@@ -65,8 +62,57 @@ public class PlayerCC : MonoBehaviour
 
         yVelocity += gravity * Time.deltaTime;
     }
+
+    void Interaction()
+    {
+        if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch) && messageObj)
+        {
+            ViewMessage();
+        }
+
+        RaycastHit hit;
+
+        int playerLayer = 1 << LayerMask.NameToLayer("Player");
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100, ~playerLayer))
+        {
+           
+            
+            if (hit.collider.CompareTag("Message"))
+            {
+                messageIndicator.SetActive(true);
+                messageObj = hit.collider.gameObject;
+                print("메세지오브젝트 확인");
+            }
+            else
+            {
+                messageIndicator.SetActive(false);
+                if (!isShowingPopup)
+                {
+                    messageObj = null;
+                }
+            }
+        }
+
+    }
+
+    private void ViewMessage()
+    {
+        // 쪽지 열 수 있으면 쪽지 열기
+        if (!isShowingPopup)
+        {
+            var message = messageObj.GetComponent<Message>();
+            messageIndicator.SetActive(false);
+            isShowingPopup = true;
+            message.OpenMessage();
+        }
+        // 쪽지 열고 있는 상태 - 닫기
+        else
+        {
+            print("Close");
+            var message = messageObj.GetComponent<Message>();
+            message.CloseMessage();
+            messageObj = null;
+            isShowingPopup = false;
+        }
+    }
 }
-//thumbstick 제어 Axis1d : vector 1(x)  axis2d : vector2(y)
-//Vector2 Lpos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
-//this.transform.Translate(this.transform.forward * Lpos.y * Time.deltaTime * 1f);
-//this.transform.Rotate(this.transform.up * Lpos.x * Time.deltaTime * 40f);
