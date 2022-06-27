@@ -13,7 +13,7 @@ public class PlayerCC : MonoBehaviour
     private float yVelocity = 0.0f;
 
     public float movespeed;
-    
+
 
     [SerializeField] private GameObject messageIndicator;
     [SerializeField]
@@ -31,16 +31,20 @@ public class PlayerCC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerMove();
         SetGravity();
+        PlayerMove();
         Interaction();
+        //if (PlayerCellPhone.instance.isOnUI == false)
+        //{
+           
+        //}
         Debug.DrawRay(playerCam.transform.position, playerCam.transform.forward);
     }
 
     void PlayerMove()
     {
-        Vector2 Lpos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
-        Vector2 Rpos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
+        Vector2 Lpos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
+        Vector2 Rpos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
 
         Vector3 dir = transform.forward;
         dir.y = 0;
@@ -65,7 +69,7 @@ public class PlayerCC : MonoBehaviour
 
     void Interaction()
     {
-        if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch) && messageObj)
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch) && messageObj)
         {
             ViewMessage();
         }
@@ -75,8 +79,8 @@ public class PlayerCC : MonoBehaviour
         int playerLayer = 1 << LayerMask.NameToLayer("Player");
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100, ~playerLayer))
         {
-           
-            
+
+
             if (hit.collider.CompareTag("Message"))
             {
                 messageIndicator.SetActive(true);
