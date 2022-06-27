@@ -12,14 +12,16 @@ public class PlayerCellPhone : MonoBehaviour
     MeshRenderer phoneMesh;
     bool isPhoneOn = false;
     public bool isAlarmOn = false;
+    bool isSee1 = false;
+    bool isSee2 = false;
+    bool isSee3 = false;
+   
 
     public Texture[] first_KakaoTalk;
     public Texture[] second_KakaoTalk;
     public Texture[] third_KakaoTalk;
     int textureslength;
-    int textureslength2;
-    int textureslength3;
-
+    
     public System.Action action;
 
     public void Awake()
@@ -35,8 +37,6 @@ public class PlayerCellPhone : MonoBehaviour
     {
         phonemat = phone.GetComponent<Material>();
         phoneMesh = phone.GetComponent<MeshRenderer>();
-        //µð¹ö±×
-        Invoke("AlarmOn", 15f);
     }
 
     // Update is called once per frame
@@ -50,45 +50,60 @@ public class PlayerCellPhone : MonoBehaviour
         {
             PhoneOff();
         }
-
-
-
     }
 
     void PhoneOn()
     {
+        
+            AlarmOn(1);
+        
+
         isPhoneOn = true;
         phone.SetActive(true);
+
     }
 
     void PhoneOff()
     {
         isPhoneOn = false;
+        
         phone.SetActive(false);
 
         action?.Invoke();
     }
+
+
 
     public void AlarmOn(int num)
     {
         switch (num)
         {
             case 1:
+                if(isSee1 == false)
                 StartCoroutine(KakaoTalk(first_KakaoTalk));
+                isSee1 = true;
+                
+                
                 break;
 
             case 2:
-                StartCoroutine(KakaoTalk(second_KakaoTalk));
+                if (isSee2 == false)
+                    StartCoroutine(KakaoTalk(second_KakaoTalk));
+                isSee2 = true;
                 break;
 
             case 3:
-                StartCoroutine(KakaoTalk(third_KakaoTalk));
+                if (isSee3 == false)
+                    StartCoroutine(KakaoTalk(third_KakaoTalk));
+                isSee3 = true;
                 break;
         }
+        isAlarmOn = false;
     }
 
     IEnumerator KakaoTalk(Texture[] kakaoImages)
     {
+        yield return new WaitForSeconds(1f);
         textureslength = kakaoImages.Length;
 
         for (int i = 0; i < textureslength; i++)

@@ -915,7 +915,15 @@ MonoBehaviour:
   R_Controller: {fileID: 0}
   phone: {fileID: 1939388757}
   isAlarmOn: 0
-  first_KakaoTalk: []
+  first_KakaoTalk:
+  - {fileID: 2800000, guid: ddac38bfb4524b34f9d11ec3170fca47, type: 3}
+  - {fileID: 2800000, guid: a4bd746194cc82d4399ce9386e35ee78, type: 3}
+  - {fileID: 2800000, guid: ab6a8b7f9ff70a2489e1cbb07d101f3e, type: 3}
+  - {fileID: 2800000, guid: df90bbcee77bd744e918ed78416d92d5, type: 3}
+  - {fileID: 2800000, guid: 5a2317eef890d6247899d7cde63c323d, type: 3}
+  - {fileID: 2800000, guid: d96b2221b231a6a4c8d55ed06f6540c0, type: 3}
+  - {fileID: 2800000, guid: 57af02da51450d74f90a9d9a5ded2c0c, type: 3}
+  - {fileID: 2800000, guid: 76d44df7e7c083b4182d17d932d02696, type: 3}
   second_KakaoTalk:
   - {fileID: 2800000, guid: cb041bb90454a8d4c933478426ae55f7, type: 3}
   - {fileID: 2800000, guid: 62d67779d4798274bb0df5bcd61e1d6f, type: 3}
@@ -1696,6 +1704,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1723417480951119024, guid: bafe43ef56cf3514a81af359dede6692, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723417480951119024, guid: bafe43ef56cf3514a81af359dede6692, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723417480951119024, guid: bafe43ef56cf3514a81af359dede6692, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0083
       objectReference: {fileID: 0}
@@ -1745,7 +1761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2347947798129187660, guid: bafe43ef56cf3514a81af359dede6692, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bafe43ef56cf3514a81af359dede6692, type: 3}
@@ -1985,7 +2001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1623067949
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47879,11 +47895,12 @@ MonoBehaviour:
   closeAngle: 0
   closeSpeed: 20
   openSpeed: 10
+  setOpen: 0
   doorState: 0
   door: {fileID: 711250257}
   openSound: {fileID: 8300000, guid: 9699c9b77233e84419cbaa27a69fd83f, type: 3}
+  openSoundL: {fileID: 0}
   closeSound: {fileID: 8300000, guid: 22c65edee5d368d438f86e28b5d06d20, type: 3}
-  source: {fileID: 0}
 --- !u!4 &7191634135643728369
 Transform:
   m_ObjectHideFlags: 0
@@ -53715,11 +53732,12 @@ MonoBehaviour:
   closeAngle: 0
   closeSpeed: 20
   openSpeed: 10
+  setOpen: 0
   doorState: 0
   door: {fileID: 1210261104}
   openSound: {fileID: 8300000, guid: 9699c9b77233e84419cbaa27a69fd83f, type: 3}
+  openSoundL: {fileID: 0}
   closeSound: {fileID: 8300000, guid: 22c65edee5d368d438f86e28b5d06d20, type: 3}
-  source: {fileID: 0}
 --- !u!4 &7191634135757968305
 Transform:
   m_ObjectHideFlags: 0

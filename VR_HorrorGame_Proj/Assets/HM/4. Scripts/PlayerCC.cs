@@ -31,12 +31,16 @@ public class PlayerCC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isShowingPopup == false)
+        {
+            PlayerMove();
+        }
+
         SetGravity();
-        PlayerMove();
         Interaction();
         //if (PlayerCellPhone.instance.isOnUI == false)
         //{
-           
+
         //}
         Debug.DrawRay(playerCam.transform.position, playerCam.transform.forward);
     }
