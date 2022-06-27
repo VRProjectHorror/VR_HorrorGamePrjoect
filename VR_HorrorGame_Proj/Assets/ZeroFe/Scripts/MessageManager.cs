@@ -74,7 +74,7 @@ public class MessageManager : MonoBehaviour
         // 해당 쪽지 위치로 플레이어 위치 불러옴
         player.GetComponent<CharacterController>().enabled = false;
         // 쪽지 프리팹의 X축이 
-        player.transform.position = messages[pos].transform.position - messages[pos].transform.right;
+        player.transform.position = messages[pos].transform.position - messages[pos].transform.up;
         player.GetComponent<CharacterController>().enabled = true;
     }
 #endif

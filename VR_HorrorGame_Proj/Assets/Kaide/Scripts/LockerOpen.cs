@@ -10,16 +10,21 @@ public class LockerOpen : MonoBehaviour
     public float closeAngle = 0f;
     public float closeSpeed;
     public float openSpeed;
+
+    public float setOpen;
+
     public bool doorState = false; // 문 상태 확인용 변수
     public Transform door;   
 
     public AudioClip openSound;
+    public AudioClip openSoundL;
     public AudioClip closeSound;
 
-    public AudioSource source;
+    AudioSource source;
 
     private void Awake()
     {
+        setOpen = 1.5f;
         source = GetComponentInChildren<AudioSource>();
     }
 
@@ -37,19 +42,16 @@ public class LockerOpen : MonoBehaviour
     {
         // 문 열리게 하는 함수 
         DoorRotate();
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Open(closeSpeed);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Close();
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartCoroutine(IEOpenCloseRepeat());
-        }
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    openSpeed = 0.5f;
+        //    Open(openSpeed);
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    Close();
+        //}
     }
 
     public void Open(float newOpenSpeed)
@@ -57,7 +59,14 @@ public class LockerOpen : MonoBehaviour
         //이벤트 발생 시 문 열리는 속도 변경
         openSpeed = newOpenSpeed;
         doorState = true;
-        source.PlayOneShot(openSound);
+        if (openSpeed == setOpen)
+        {
+            source.PlayOneShot(openSoundL);
+        }
+        else
+        {
+            source.PlayOneShot(openSound);
+        }
         Debug.Log("열림");
     }
 
@@ -101,9 +110,5 @@ public class LockerOpen : MonoBehaviour
         }
         
     }
-
-
-
-
 
 }

@@ -257,8 +257,8 @@ MonoBehaviour:
   closeAngle: 0
   closeSpeed: 20
   openSpeed: 10
-  setOpen: 0.5
+  doorState: 0
   door: {fileID: 8869021274063127696}
-  openSoundL: {fileID: 8300000, guid: 0f298e8d62a653d4d9ad3380e3c1fbf8, type: 3}
-  openSound: {fileID: 8300000, guid: 615b6e5b99d7bde44b19208e621c9aed, type: 3}
-  closeSound: {fileID: 8300000, guid: a68c25f82edf36548b354dbcedc42618, type: 3}
+  openSound: {fileID: 8300000, guid: 9699c9b77233e84419cbaa27a69fd83f, type: 3}
+  closeSound: {fileID: 8300000, guid: 22c65edee5d368d438f86e28b5d06d20, type: 3}
+  source: {fileID: 5351576905495270382}
