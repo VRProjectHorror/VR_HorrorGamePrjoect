@@ -9,23 +9,23 @@ public class LightController : MonoBehaviour
     [SerializeField] private AudioClip turnOffSound;
 
     private AudioSource audioSource;
-    private Light light;
+    private Light _light;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        light = GetComponent<Light>();
+        _light = GetComponent<Light>();
     }
 
     public void TurnOn()
     {
-        light.enabled = true;
+        _light.enabled = true;
         audioSource.PlayOneShot(turnOnSound);
     }
 
     public void TurnOff()
     {
-        light.enabled = false;
+        _light.enabled = false;
         audioSource.PlayOneShot(turnOffSound);
     }
 }

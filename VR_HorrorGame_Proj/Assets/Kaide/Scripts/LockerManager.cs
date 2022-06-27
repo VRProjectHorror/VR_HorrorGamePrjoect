@@ -6,7 +6,6 @@ using UnityEngine;
 public class LockerManager : MonoBehaviour
 {
     public LockerOpen[] lockers;
-    public GameObject[] door;
     public float minTime;
     public float maxTime;    
     int active;    
@@ -18,7 +17,7 @@ public class LockerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        active = door.Length;        
+        active = lockers.Length;        
     }
 
     // Update is called once per frame
