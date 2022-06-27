@@ -5,25 +5,32 @@ using UnityEngine;
 //락커가 열림
 public class LockerManager : MonoBehaviour
 {
-    public LockerOpen[] lockers;
-    public GameObject[] door;
+    public LockerOpen[] lockers;   
     public float minTime;
-    public float maxTime;    
+    public float maxTime;
+    
     int active;    
-   
-
-
 
 
     // Start is called before the first frame update
     void Start()
-    {
-        active = door.Length;        
+    {       
+        active = lockers.Length;        
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            lockers[1].openSpeed = lockers[1].setOpen;
+            lockers[1].Open(lockers[1].openSpeed);
+            
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            lockers[1].Close();
+        }
         if (Input.GetKeyDown(KeyCode.G))
         {
             StartCoroutine(IEActiveDoor());
@@ -47,7 +54,7 @@ public class LockerManager : MonoBehaviour
     {        
         SuffleDoor(); //호출될 때 한 번 셔플    
 
-        int count = Random.Range(1, active + 1);
+        int count = Random.Range(2, active + 1);
         print(count);
 
         for (int i = 0; i < count; i++)
@@ -58,10 +65,6 @@ public class LockerManager : MonoBehaviour
             yield return new WaitForSeconds(activeTime);
         }
     }
-
-    //문 열고 닫히는 연출용
-    
-
 
 }
 
