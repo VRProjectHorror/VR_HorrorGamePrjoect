@@ -41,6 +41,9 @@ public class SkyController : MonoBehaviour
 
     [Tooltip("천둥 번개 효과 관련 설정")]
     public ThunderSetting thunderSetting;
+    public AudioClip thunderSound;
+
+    private AudioSource audioSource;
 
     public float Exposure
     {
@@ -55,6 +58,8 @@ public class SkyController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -103,6 +108,9 @@ public class SkyController : MonoBehaviour
     // 번개 치는 효과 - 잠깐 하늘 밝아졌다가 원래 색으로 돌아오기
     IEnumerator IEThunder()
     {
+        // 소리 출력
+        audioSource.PlayOneShot(thunderSound);
+
         // 초기화 : 기존 밝기 값 등을 저장
         float initExposure = _Exposure;
         float initIntensity = directionalLightA.intensity;

@@ -46,7 +46,7 @@ public class Trigger_Warehouse : MonoBehaviour
             yield return 0;
         }
 
-        Destroy(gameObject);
+        Destroy(blackSilhouette);
 
         flash.StartFlash();
     }

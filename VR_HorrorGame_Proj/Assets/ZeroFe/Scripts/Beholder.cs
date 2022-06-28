@@ -49,10 +49,8 @@ public class Beholder : MonoBehaviour
 
         // 번개 치기
         SkyController.Instance.Thunder();
-        yield return new WaitForSeconds(2.0f);
-
-        // 한 번 더 번개
-        SkyController.Instance.Thunder();
+        yield return new WaitForSeconds(1.5f);
+        
         // 검은 형체만 Fade Out 되도록 Material을 복사
         mesh.material = new Material(mesh.material);
         // Fade Out

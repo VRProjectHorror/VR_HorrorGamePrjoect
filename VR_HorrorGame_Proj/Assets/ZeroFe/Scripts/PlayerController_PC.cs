@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// 플레이어 조작을 관리하는 클래스
@@ -17,8 +19,13 @@ public class PlayerController_PC : MonoBehaviour
     [SerializeField] private GameObject messageIndicator;
     private GameObject messageObj;
 
+    [SerializeField] private AudioClip[] walkingSounds;
+    [SerializeField] private float walkSoundInterval = 0.3f;
+    [SerializeField] private AudioSource footSoundSource;
+
     private bool isShowingPopup = false;
 
+    private bool isWalking = false;
 
     private CharacterController cc;
     private Camera _main;
@@ -28,6 +35,25 @@ public class PlayerController_PC : MonoBehaviour
         cc = GetComponent<CharacterController>();
         _main = Camera.main;
     }
+
+    private void Start()
+    {
+        StartCoroutine(IEWalkSoundPlayer());
+    }
+
+    IEnumerator IEWalkSoundPlayer()
+    {
+        while (true)
+        {
+            if (isWalking)
+            {
+                int r = Random.Range(0, walkingSounds.Length);
+                footSoundSource.PlayOneShot(walkingSounds[r]);
+            }
+            yield return new WaitForSeconds(walkSoundInterval);
+        }
+    }
+
 
     void Update()
     {
@@ -50,6 +76,8 @@ public class PlayerController_PC : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+
+        isWalking = h != 0 || v != 0;
 
         Vector3 dir = new Vector3(h, 0, v);
         dir = _main.transform.TransformDirection(dir);
