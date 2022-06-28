@@ -6,6 +6,8 @@ public class Message_7 : Message
 {
     public LockerManager[] lockers;
     public LockerOpen fittingRoomDoor;
+    public LockerOpen fittingRoomEntranceDoor;
+    public Trigger_Exit exitTrigger;
 
     // 디버그용. 테스트 후 VR에서 PlayerCellPhone으로 맞춤
     public Kakaotalk messenger;
@@ -52,5 +54,7 @@ public class Message_7 : Message
 
         // 글리치 끝나고 문 열기
         fittingRoomDoor.Open(0.5f);
+        fittingRoomEntranceDoor.Open(0.5f);
+        exitTrigger.triggable = true;
     }
 }
