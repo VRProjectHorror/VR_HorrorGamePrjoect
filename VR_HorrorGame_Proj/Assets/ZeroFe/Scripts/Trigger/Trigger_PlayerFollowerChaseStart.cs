@@ -14,6 +14,7 @@ public class Trigger_PlayerFollowerChaseStart : MonoBehaviour
     public bool isChaseStart = false;
     public LightController broadcastLight;
     public AudioClip chaseStartSound;
+    public AudioClip chaseStartBGM;
 
     private float height = 1.5f;
 
@@ -36,6 +37,7 @@ public class Trigger_PlayerFollowerChaseStart : MonoBehaviour
         {
             playerFollower.StartChase();
             broadcastLight.TurnOff();
+            BGMPlayer.Instance.Change(chaseStartBGM);
             StartCoroutine(IEPlayChaseSound());
         }
     }
@@ -57,6 +59,8 @@ public class Trigger_PlayerFollowerChaseStart : MonoBehaviour
             {
                 yield return 0;
             }
+
+            yield return new WaitForSeconds(0.2f);
         }
 
         sfx.clip = null;

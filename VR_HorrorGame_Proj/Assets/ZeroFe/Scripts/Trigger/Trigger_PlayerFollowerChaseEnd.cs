@@ -28,6 +28,7 @@ public class Trigger_PlayerFollowerChaseEnd : MonoBehaviour
         if (isChaseEnd)
         {
             playerFollower.EndChase();
+            BGMPlayer.Instance.Rollback();
             StartCoroutine(IEPlayDoorHitSound());
         }
     }

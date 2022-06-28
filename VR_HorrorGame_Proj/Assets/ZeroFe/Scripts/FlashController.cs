@@ -50,5 +50,6 @@ public class FlashController : MonoBehaviour
     public void StopFlash()
     {
         StopAllCoroutines();
+        _light.enabled = false;
     }
 }

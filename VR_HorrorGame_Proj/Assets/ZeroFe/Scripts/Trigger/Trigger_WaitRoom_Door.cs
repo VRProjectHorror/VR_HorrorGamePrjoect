@@ -6,6 +6,7 @@ using UnityEngine;
 public class Trigger_WaitRoom_Door : MonoBehaviour
 {
     public Wisp wisp;
+    public AudioClip followBGM;
 
     private bool isTriggered = false;
 
@@ -18,6 +19,7 @@ public class Trigger_WaitRoom_Door : MonoBehaviour
         isTriggered = true;
 
         wisp.gameObject.SetActive(true);
+        BGMPlayer.Instance.Change(followBGM);
     }
     
 }

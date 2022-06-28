@@ -21,6 +21,11 @@ public class BGMPlayer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        PlayBGM();
+    }
+
     // 게임 시작하고 원할 때부터 BGM 플레이
     public void PlayBGM()
     {

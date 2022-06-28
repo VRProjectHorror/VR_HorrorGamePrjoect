@@ -22,6 +22,7 @@ public class Trigger_Warehouse : MonoBehaviour
         }
         isTriggered = true;
 
+        BGMPlayer.Instance.Rollback();
         StartCoroutine(IEFadeOut());
     }
 

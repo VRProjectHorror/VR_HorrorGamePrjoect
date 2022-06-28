@@ -30,12 +30,12 @@ public class SkyController : MonoBehaviour
     private Material skyboxMat;
 
     // 디버그 시 확인을 위해 public 변수로 선언했으나, 이 값은 skyController에서만 건드릴 것임
-    public float _SunSize;
-    public float _SunSizeConvergence;
-    public float _AtmosphereThickness;
-    public Color _SkyTint;
-    public Color _GroundColor;
-    public float _Exposure;
+    private float _SunSize;
+    private float _SunSizeConvergence;
+    private float _AtmosphereThickness;
+    private Color _SkyTint;
+    private Color _GroundColor;
+    private float _Exposure;
 
     public Light directionalLightA;
 

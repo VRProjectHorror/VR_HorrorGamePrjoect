@@ -11,7 +11,7 @@ public class Trigger_Exit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!triggable && isTriggered)
+        if (!triggable || isTriggered)
         {
             return;
         }
