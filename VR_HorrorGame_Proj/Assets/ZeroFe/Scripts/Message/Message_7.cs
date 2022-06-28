@@ -10,7 +10,7 @@ public class Message_7 : Message
     public Trigger_Exit exitTrigger;
 
     // 디버그용. 테스트 후 VR에서 PlayerCellPhone으로 맞춤
-    public Kakaotalk messenger;
+    public PlayerCellPhone messenger;
 
     protected override void Trigger()
     {
@@ -19,18 +19,18 @@ public class Message_7 : Message
         //    -**대화 내용 * *
 
         //    (추가 예정 )
-        
+
         //3. * *대화 이벤트가 끝나면 사물함들이 거칠게 닫히며 큰 소리를 낸다**
         //    4. * *여자 친구의 문자 대화 이벤트**
         //    -**대화 내용 * *
 
         //    (추가 예정 )
-        
+
         //5. * *중간 세기의 글리치 일시적 발생**
         //    -**참고 이미지 * *
 
-        Kakaotalk.Instance.action = LockerEvent;
-        Kakaotalk.Instance.AlarmOn(2);
+        PlayerCellPhone.instance.action = LockerEvent;
+        PlayerCellPhone.instance.StartPhoneCoroutine(2);
     }
 
     private void LockerEvent()
@@ -45,12 +45,20 @@ public class Message_7 : Message
 
     private void MessageEvent()
     {
-        Kakaotalk.Instance.action = Glitch;
-        Kakaotalk.Instance.AlarmOn(3);
+        PlayerCellPhone.instance.action = Glitch;
+        PlayerCellPhone.instance.StartPhoneCoroutine(3);
     }
 
     private void Glitch()
     {
+        StartCoroutine(IEGlitch());
+    }
+
+    IEnumerator IEGlitch()
+    {
+        Player_Glitch.instance.SetGlitch(0.5f);
+
+        yield return new WaitForSeconds(0.5f);
 
         // 글리치 끝나고 문 열기
         fittingRoomDoor.Open(0.5f);

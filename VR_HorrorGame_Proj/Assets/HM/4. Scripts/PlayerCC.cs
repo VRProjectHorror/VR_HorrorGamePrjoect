@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerCC : MonoBehaviour
 {
+    AudioSource playerSound;
+    [SerializeField]
+    AudioClip[] playersoundclip;
+
     CharacterController cc;
     [SerializeField]
     GameObject playerCam;
@@ -33,6 +37,7 @@ public class PlayerCC : MonoBehaviour
     {
         if (isShowingPopup == false)
         {
+            
             PlayerMove();
         }
 
@@ -81,7 +86,7 @@ public class PlayerCC : MonoBehaviour
         RaycastHit hit;
 
         int playerLayer = 1 << LayerMask.NameToLayer("Player");
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100, ~playerLayer))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 15, ~playerLayer))
         {
 
 

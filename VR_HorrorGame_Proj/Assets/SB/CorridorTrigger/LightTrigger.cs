@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightTrigger : MonoBehaviour
 {
+    public GameObject dLight;
+
     public Light[] CencterLight;
     public Light[] DoorLight;
     bool isbump;
@@ -20,9 +22,10 @@ public class LightTrigger : MonoBehaviour
         {
             isbump = true;
             print("active1");
+            BGMPlayer.Instance.Change(bgm);
+            dLight.SetActive(false);
         }
 
-        BGMPlayer.Instance.Change(bgm);
     }
     // Update is called once per frame
     void Update()

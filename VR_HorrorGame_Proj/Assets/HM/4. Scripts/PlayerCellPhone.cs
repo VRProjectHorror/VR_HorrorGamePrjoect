@@ -6,21 +6,25 @@ public class PlayerCellPhone : MonoBehaviour
 {
     public static PlayerCellPhone instance;
 
-    public GameObject R_Controller;
+    AudioSource katalksound;
+
     public GameObject phone;
     Material phonemat;
     MeshRenderer phoneMesh;
     bool isPhoneOn = false;
     public bool isAlarmOn = false;
+    public bool isTalkEnd = false;
     bool isSee1 = false;
     bool isSee2 = false;
     bool isSee3 = false;
-   
+    bool isUIClik = false;
+    public Texture[] kakaotalk_Start;
 
     public Texture[] first_KakaoTalk;
     public Texture[] second_KakaoTalk;
     public Texture[] third_KakaoTalk;
     int textureslength;
+    int countkakao = 1;
     
     public System.Action action;
 
@@ -37,26 +41,34 @@ public class PlayerCellPhone : MonoBehaviour
     {
         phonemat = phone.GetComponent<Material>();
         phoneMesh = phone.GetComponent<MeshRenderer>();
+        katalksound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One) && isPhoneOn == false)
+
+        Debug.Log(isTalkEnd);
+        if(isAlarmOn == true && isPhoneOn == false)
         {
-            PhoneOn();
+            
         }
-        else if (OVRInput.GetDown(OVRInput.Button.Two) && isPhoneOn == true)
+
+
+        if (OVRInput.GetDown(OVRInput.Button.Two) && isTalkEnd == true)
         {
             PhoneOff();
         }
+
+
+
     }
 
     void PhoneOn()
     {
-        
+        //Debug
             AlarmOn(1);
-        
+        //===============================
 
         isPhoneOn = true;
         phone.SetActive(true);
@@ -66,13 +78,31 @@ public class PlayerCellPhone : MonoBehaviour
     void PhoneOff()
     {
         isPhoneOn = false;
-        
+        isTalkEnd = false;
         phone.SetActive(false);
 
         action?.Invoke();
     }
 
+    public void StartPhoneCoroutine(int num)
+    {
+        isTalkEnd = false;
+        phone.SetActive(true);
 
+        StartCoroutine(StartKakaoTalk(num));
+    }
+
+    public void CameAlarm()
+    {
+        katalksound.Play();
+        StartCoroutine(Vibration(0.3f, 0.5f, 0.5f, OVRInput.Controller.All));
+
+        //사운드 추가
+
+
+        // UI 추가
+
+    }
 
     public void AlarmOn(int num)
     {
@@ -82,8 +112,6 @@ public class PlayerCellPhone : MonoBehaviour
                 if(isSee1 == false)
                 StartCoroutine(KakaoTalk(first_KakaoTalk));
                 isSee1 = true;
-                
-                
                 break;
 
             case 2:
@@ -98,28 +126,45 @@ public class PlayerCellPhone : MonoBehaviour
                 isSee3 = true;
                 break;
         }
+        isPhoneOn = true;
         isAlarmOn = false;
+        isTalkEnd = true;
+        countkakao++;
     }
 
     IEnumerator KakaoTalk(Texture[] kakaoImages)
     {
+        
+
         yield return new WaitForSeconds(1f);
         textureslength = kakaoImages.Length;
 
         for (int i = 0; i < textureslength; i++)
         {
+            katalksound.Play();
             StartCoroutine(Vibration(0.3f, 0.5f, 0.5f, OVRInput.Controller.All));
 
             phoneMesh.materials[1].SetTexture("_EmissionMap", kakaoImages[i]);
 
-            while (isPhoneOn == false)
-            {
-                yield return null;
-            }
+            //while (isPhoneOn == false)
+            //{
+            //    yield return null;
+            //}
 
             yield return new WaitForSeconds(2f);
+
+            
         }
 
+    }
+
+    IEnumerator StartKakaoTalk(int i)
+    {
+        phoneMesh.materials[1].SetTexture("_EmissionMap", kakaotalk_Start[i - 1]);
+        yield return new WaitForSeconds(5f);
+        AlarmOn(i);
+
+        StopCoroutine("StartKakaoTalk");
     }
 
     IEnumerator Vibration(float waitTime, float frequenct, float amplitude, OVRInput.Controller controller)
