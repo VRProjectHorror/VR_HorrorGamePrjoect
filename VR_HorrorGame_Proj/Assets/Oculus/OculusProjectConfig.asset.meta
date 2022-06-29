@@ -2,7 +2,11 @@ fileFormatVersion: 2
 guid: 99c0d806eb5cbe24da5e78ee5659c393
 NativeFormatImporter:
   externalObjects: {}
+<<<<<<< HEAD
   mainObjectFileID: 11400000
+=======
+  mainObjectFileID: 0
+>>>>>>> 9932f19 (최종 완료까지 롤백)
   userData: 
   assetBundleName: 
   assetBundleVariant: 
