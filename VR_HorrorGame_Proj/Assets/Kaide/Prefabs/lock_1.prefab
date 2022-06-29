@@ -40,7 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 5483731441277063395}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: d331fb75479a12b42894237869f01aa8, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -257,9 +257,8 @@ MonoBehaviour:
   closeAngle: 0
   closeSpeed: 20
   openSpeed: 10
-  setOpen: 0
   doorState: 0
   door: {fileID: 8869021274063127696}
   openSound: {fileID: 8300000, guid: 9699c9b77233e84419cbaa27a69fd83f, type: 3}
-  openSoundL: {fileID: 0}
   closeSound: {fileID: 8300000, guid: 22c65edee5d368d438f86e28b5d06d20, type: 3}
+  source: {fileID: 5351576905495270382}
