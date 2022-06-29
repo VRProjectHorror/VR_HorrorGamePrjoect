@@ -25733,7 +25733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerFollower: {fileID: 2100599275}
   startPos: {fileID: 1192921860}
-  minChaseSpeed: 3
+  minChaseSpeed: 2
   isChaseStart: 0
   broadcastLight: {fileID: 0}
   chaseStartSound: {fileID: 0}
@@ -28792,7 +28792,7 @@ MonoBehaviour:
   playerTr: {fileID: 1405814232}
   targetTr: {fileID: 10759331}
   targetDistanceDiff: 1
-  moveSpeed: 2.25
+  moveSpeed: 1.8
   sinAmplitude: 0.3
   startLightRanges: {x: 0.3, y: 0.2}
   normalLightRanges: {x: 0.7, y: 0.35}
@@ -31614,7 +31614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerFollower: {fileID: 2100599275}
   startPos: {fileID: 1634876907}
-  minChaseSpeed: 2
+  minChaseSpeed: 1.5
   isChaseStart: 0
   broadcastLight: {fileID: 0}
   chaseStartSound: {fileID: 0}

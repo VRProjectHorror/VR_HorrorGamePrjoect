@@ -86,7 +86,7 @@ public class PlayerCC : MonoBehaviour
         RaycastHit hit;
 
         int playerLayer = 1 << LayerMask.NameToLayer("Player");
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 15, ~playerLayer))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 5, ~playerLayer))
         {
 
 
